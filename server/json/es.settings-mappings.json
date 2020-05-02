@@ -1,0 +1,116 @@
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "@version": {
+        "type": "text",
+        "analyzer": "word_stem_anl",
+        "fields": {
+          "nostem": {
+            "type": "text",
+            "analyzer": "word_anl"
+          },
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "word_stem_anl",
+        "fields": {
+          "nostem": {
+            "type": "text",
+            "analyzer": "word_anl"
+          },
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "word_stem_anl",
+        "fields": {
+          "nostem": {
+            "type": "text",
+            "analyzer": "word_anl"
+          },
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "category": {
+        "type": "text",
+        "analyzer": "word_stem_anl",
+        "fields": {
+          "nostem": {
+            "type": "text",
+            "analyzer": "word_anl"
+          },
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      }
+    }
+  },
+
+  "settings": {
+    "analysis": {
+      "char_filter": {
+        "connector_flt": {
+          "type": "pattern_replace",
+          "pattern": "[-'_]",
+          "replacement": ""
+        },
+        "numeric_delim_flt": {
+          "type": "pattern_replace",
+          "pattern": "([0-9]*\\.?[0-9]+)",
+          "replacement": " $1 "
+        }
+      },
+      "filter": {
+        "snowball_flt": {
+          "type": "snowball"
+        },
+        "synonym_flt": {
+          "type": "synonym_graph",
+          "synonyms": []
+        }
+      },
+      "analyzer": {
+        "word_anl": {
+          "char_filter": ["html_strip", "connector_flt", "numeric_delim_flt"],
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "trim",
+            "decimal_digit",
+            "synonym_flt"
+          ],
+          "tokenizer": "icu_tokenizer"
+        },
+        "word_stem_anl": {
+          "char_filter": ["html_strip", "connector_flt", "numeric_delim_flt"],
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "trim",
+            "decimal_digit",
+            "snowball_flt",
+            "synonym_flt"
+          ],
+          "tokenizer": "icu_tokenizer"
+        }
+      }
+    }
+  }
+}
